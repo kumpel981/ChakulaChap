@@ -3,500 +3,1211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChakulaChap - Kenyan Student Meal Advisor</title>
-    <link rel="stylesheet" href="style.css">
-    <head>
+    <title>ChakulaChap - Affordable Meal Finder for Kenyan Students</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #FFA62E;
+            --accent: #25D366;
+            --dark: #2C3E50;
+            --light: #F8F9FA;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #E74C3C;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --radius: 15px;
+        }
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            line-height: 1.6;
         }
-        
+
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
-        
-        .header {
-            background: linear-gradient(to right, #FF6B35, #FFA62E);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M30,30 Q50,10 70,30 T90,30 Q70,50 90,70 T90,90 Q70,70 50,90 T30,90 Q10,70 30,50 T10,30 Q30,10 50,30 Z" fill="white"/></svg>');
+            background-size: 120px;
         }
-        
-        .header h1 {
-            font-size: 2.5em;
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            font-size: 3.5em;
             margin-bottom: 10px;
         }
-        
-        .header .swahili {
-            font-style: italic;
-            opacity: 0.9;
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            font-weight: 800;
         }
-        
+
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .swahili {
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Stats Bar */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: var(--dark);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--secondary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
         .main-content {
             padding: 30px;
         }
-        
-        .form-group {
-            margin-bottom: 25px;
+
+        /* Campus Selection */
+        .campus-section {
+            margin-bottom: 30px;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+
+        .section-title {
+            color: var(--dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        select, input {
-            width: 100%;
-            padding: 15px;
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .campus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .campus-card {
+            background: white;
             border: 2px solid #e1e5ee;
             border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
         }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: #FF6B35;
+
+        .campus-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.1);
         }
-        
-        .budget-slider {
-            margin: 20px 0;
+
+        .campus-card.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
-        
+
+        .campus-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Budget Section */
+        .budget-section {
+            margin-bottom: 30px;
+        }
+
         .budget-display {
             text-align: center;
-            font-size: 1.5em;
+            font-size: 2.2em;
             font-weight: bold;
-            color: #FF6B35;
-            margin: 15px 0;
+            color: var(--primary);
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5f7fa, #e3e8f0);
+            border-radius: 10px;
         }
-        
-        .button {
-            background: linear-gradient(to right, #FF6B35, #FFA62E);
+
+        .budget-slider {
+            width: 100%;
+            height: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, var(--danger), var(--warning), var(--success));
+            border-radius: 5px;
+            outline: none;
+            margin: 20px 0;
+        }
+
+        .budget-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: var(--dark);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .budget-presets {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .budget-preset {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .budget-preset:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .budget-preset.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Button */
+        .find-button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
-            padding: 18px 30px;
-            font-size: 18px;
+            padding: 20px;
+            font-size: 1.2em;
             font-weight: bold;
             border-radius: 10px;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.3s, box-shadow 0.3s;
-            margin-top: 20px;
+            transition: all 0.3s;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-        
-        .button:hover {
+
+        .find-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
         }
-        
+
+        .find-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Results Section */
         .results {
             margin-top: 40px;
             padding: 25px;
             background: #f9f9f9;
-            border-radius: 15px;
+            border-radius: var(--radius);
             display: none;
+            animation: slideIn 0.5s ease;
         }
-        
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .results-title {
+            color: var(--dark);
+            font-size: 1.8em;
+        }
+
+        .results-count {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .meal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
         .meal-card {
             background: white;
             border-radius: 10px;
             padding: 20px;
-            margin-bottom: 20px;
-            border-left: 5px solid #FFA62E;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--secondary);
+            position: relative;
         }
-        
-        .meal-card h3 {
-            color: #333;
+
+        .meal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .meal-card.featured {
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.2);
+        }
+
+        .meal-card.featured::before {
+            content: "⭐ BEST VALUE";
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .meal-name {
+            font-size: 1.3em;
+            color: var(--dark);
             margin-bottom: 10px;
         }
-        
-        .price {
-            color: #FF6B35;
+
+        .meal-price {
+            font-size: 1.8em;
             font-weight: bold;
-            font-size: 1.2em;
+            color: var(--primary);
+            margin-bottom: 15px;
         }
-        
+
+        .meal-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .meal-vendor {
+            background: #e8f4ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
         .health-rating {
-            color: #4CAF50;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        
-        .survival-tip {
-            background: #E3F2FD;
+
+        .health-star {
+            color: #ddd;
+        }
+
+        .health-star.active {
+            color: var(--success);
+        }
+
+        .meal-tip {
+            background: #FFF3E0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            border-left: 3px solid var(--warning);
+        }
+
+        /* Weekly Plan */
+        .weekly-plan {
+            background: #E8F5E9;
             padding: 20px;
             border-radius: 10px;
             margin-top: 30px;
-            border-left: 5px solid #2196F3;
+            border-left: 5px solid var(--success);
         }
-        
-        .campus-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .campus-tab {
-            padding: 10px 20px;
-            background: #f0f0f0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .campus-tab.active {
-            background: #FF6B35;
-            color: white;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9em;
-            border-top: 1px solid #eee;
-        }
-        
+
+        /* WhatsApp Section */
         .whatsapp-section {
-            background: #25D366;
+            background: linear-gradient(135deg, #25D366, #128C7E);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 30px;
+            padding: 30px;
+            border-radius: var(--radius);
+            margin-top: 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .whatsapp-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M50,10 C73.196,10 92,28.804 92,52 C92,75.196 73.196,94 50,94 C26.804,94 8,75.196 8,52 C8,28.804 26.804,10 50,10 Z" fill="white"/></svg>');
+            background-size: 100px;
+        }
+
+        .whatsapp-content {
+            position: relative;
+            z-index: 2;
+        }
+
         .whatsapp-button {
             background: white;
             color: #25D366;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 18px 35px;
+            font-size: 1.2em;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 15px;
+            margin-top: 20px;
             text-decoration: none;
+            transition: all 0.3s;
         }
-        
-        @media (max-width: 600px) {
-            .container {
-                border-radius: 10px;
+
+        .whatsapp-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Survival Tips */
+        .tips-section {
+            margin-top: 40px;
+        }
+
+        .tips-carousel {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .tip-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            padding: 20px;
+            background: #F0F8FF;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .tip-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tip-nav-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .tip-nav-button:hover {
+            background: var(--dark);
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .footer-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .campus-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
             
-            .header h1 {
-                font-size: 1.8em;
+            .meal-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .budget-presets {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .budget-preset {
+                flex: calc(50% - 10px);
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 30px 15px;
             }
             
             .main-content {
                 padding: 20px;
             }
+            
+            .budget-display {
+                font-size: 1.8em;
+            }
+            
+            .campus-card {
+                padding: 10px;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <h1>ChakulaChap</h1>
-            <p class="swahili">"Kula Smart, Live Smart"</p>
-            <p>AI-Powered Meal Advisor for Kenyan University Students</p>
+            <div class="header-content">
+                <div class="logo">🍛</div>
+                <h1>ChakulaChap</h1>
+                <p class="tagline">AI-Powered Meal Advisor for Kenyan University Students</p>
+                <p class="swahili">"Kula Smart, Save Smart, Live Smart"</p>
+            </div>
         </div>
-        
+
+        <!-- Stats Bar -->
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number" id="campusesCount">8+</span>
+                <span class="stat-label">Campuses</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="mealsCount">50+</span>
+                <span class="stat-label">Meal Options</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="studentsCount">1,000+</span>
+                <span class="stat-label">Students Helped</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Ksh <span id="averagePrice">85</span></span>
+                <span class="stat-label">Average Meal Price</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
         <div class="main-content">
-            <div class="form-group">
-                <label>📍 Select Your Campus</label>
-                <div class="campus-tabs">
-                    <div class="campus-tab active" onclick="selectCampus('uo_nairobi')">UoN</div>
-                    <div class="campus-tab" onclick="selectCampus('ku')">KU</div>
-                    <div class="campus-tab" onclick="selectCampus('jkuat')">JKUAT</div>
-                    <div class="campus-tab" onclick="selectCampus('moi')">Moi</div>
-                    <div class="campus-tab" onclick="selectCampus('mmust')">MMUST</div>
-                    <div class="campus-tab" onclick="selectCampus('egerton')">Egerton</div>
+            <!-- Campus Selection -->
+            <div class="campus-section">
+                <h2 class="section-title"><i class="fas fa-university"></i> Select Your Campus</h2>
+                <div class="campus-grid" id="campusGrid">
+                    <!-- Campuses will be added here by JavaScript -->
                 </div>
-                <select id="campus">
-                    <option value="uo_nairobi">University of Nairobi (Main)</option>
-                    <option value="ku">Kenyatta University</option>
-                    <option value="jkuat">JKUAT (Juja)</option>
-                    <option value="moi">Moi University</option>
-                    <option value="mmust">Masinde Muliro University</option>
-                    <option value="egerton">Egerton University</option>
-                    <option value="usiu">USIU</option>
-                    <option value="tuk">Technical University of Kenya</option>
-                </select>
             </div>
-            
-            <div class="form-group">
-                <label>💰 Your Budget (Ksh)</label>
+
+            <!-- Budget Section -->
+            <div class="budget-section">
+                <h2 class="section-title"><i class="fas fa-money-bill-wave"></i> Set Your Budget</h2>
                 <div class="budget-display" id="budgetDisplay">Ksh 150</div>
-                <input type="range" id="budgetSlider" min="20" max="500" value="150" step="10" class="budget-slider">
-                <div style="display: flex; justify-content: space-between;">
-                    <span>Ksh 20</span>
-                    <span>Ksh 500</span>
+                <input type="range" min="20" max="500" value="150" step="10" class="budget-slider" id="budgetSlider">
+                <div class="budget-presets">
+                    <div class="budget-preset" data-budget="50">Ksh 50</div>
+                    <div class="budget-preset" data-budget="100">Ksh 100</div>
+                    <div class="budget-preset active" data-budget="150">Ksh 150</div>
+                    <div class="budget-preset" data-budget="200">Ksh 200</div>
+                    <div class="budget-preset" data-budget="300">Ksh 300</div>
                 </div>
             </div>
-            
-            <button class="button" onclick="findMeals()">
-                🍛 Find Meals Within My Budget
+
+            <!-- Find Button -->
+            <button class="find-button pulse" id="findButton">
+                <i class="fas fa-search"></i> Find Meals Within My Budget
             </button>
-            
+
+            <!-- Results Section -->
             <div class="results" id="results">
-                <!-- Results will appear here -->
+                <!-- Results will be populated by JavaScript -->
             </div>
-            
+
+            <!-- WhatsApp Section -->
             <div class="whatsapp-section">
-                <h2>📱 Use Our WhatsApp Bot!</h2>
-                <p>Don't have data? Just WhatsApp us!</p>
-                <a href="https://wa.me/254700000000?text=Hi%20ChakulaChap%20I%20need%20meal%20suggestions" 
-                   class="whatsapp-button" target="_blank">
-                    💬 Chat on WhatsApp
-                </a>
-                <p style="margin-top: 15px; font-size: 0.9em;">
-                    Send: "Hi" to +254 700 000 000
-                </p>
+                <div class="whatsapp-content">
+                    <h2><i class="fab fa-whatsapp"></i> Use Our WhatsApp Bot!</h2>
+                    <p>Don't have data or prefer texting? Chat with our WhatsApp bot for instant meal suggestions!</p>
+                    <a href="https://wa.me/254700000000?text=Hi%20ChakulaChap%20I%20need%20meal%20suggestions" 
+                       class="whatsapp-button" target="_blank" id="whatsappButton">
+                        <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                    </a>
+                    <p style="margin-top: 15px; opacity: 0.9;">
+                        Send: <strong>"Hi"</strong> to +254 700 000 000
+                    </p>
+                </div>
             </div>
-            
-            <div class="survival-tip" id="survivalTip">
-                <strong>🎓 Student Survival Tip:</strong><br>
-                <span id="tipText">Buy fruits like bananas or oranges from mama mboga instead of juice - cheaper and healthier!</span>
+
+            <!-- Survival Tips -->
+            <div class="tips-section">
+                <h2 class="section-title"><i class="fas fa-lightbulb"></i> Student Survival Tips</h2>
+                <div class="tips-carousel">
+                    <div class="tip-content" id="tipText">
+                        <!-- Tip content will be updated by JavaScript -->
+                    </div>
+                    <div class="tip-nav">
+                        <button class="tip-nav-button" id="prevTip"><i class="fas fa-chevron-left"></i></button>
+                        <span id="tipCounter">Tip 1/8</span>
+                        <button class="tip-nav-button" id="nextTip"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Plan -->
+            <div class="weekly-plan hidden" id="weeklyPlan">
+                <h3><i class="fas fa-calendar-alt"></i> Weekly Meal Plan</h3>
+                <p id="weeklyPlanContent"></p>
             </div>
         </div>
-        
+
+        <!-- Footer -->
         <div class="footer">
-            <p>Made with ❤️ for Kenyan Students | Data from real campus surveys</p>
-            <p>© 2024 ChakulaChap | Need help? WhatsApp: +254 700 000 000</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link" onclick="showAbout()">About</a>
+                <a href="#" class="footer-link" onclick="showContribute()">Contribute Data</a>
+                <a href="#" class="footer-link" onclick="showContact()">Contact</a>
+                <a href="#" class="footer-link" onclick="showPrivacy()">Privacy</a>
+            </div>
+            <p class="copyright">© 2024 ChakulaChap. Made with ❤️ for Kenyan Students.</p>
+            <p style="margin-top: 10px; font-size: 0.8em;">Currently in Beta - More campuses coming soon!</p>
         </div>
     </div>
 
+    <!-- JavaScript -->
     <script>
-        // Campus data - This is your DATABASE
-        const campusData = {
-            "uo_nairobi": {
-                name: "University of Nairobi",
+        // Database of campuses and meals
+        const campuses = {
+            'uo_nairobi': {
+                name: 'University of Nairobi',
+                icon: '🏛️',
+                color: '#2C3E50',
                 meals: [
-                    { name: "Githeri", price: 50, vendor: "Main Cafeteria", health: 4, calories: 350 },
-                    { name: "Ugali + Sukuma Wiki", price: 70, vendor: "Main Cafeteria", health: 4, calories: 400 },
-                    { name: "Chapati + Beans", price: 60, vendor: "Mama Nia's Kiosk", health: 4, calories: 450 },
-                    { name: "Chips + Sausage", price: 150, vendor: "Taifa Food Court", health: 2, calories: 600 },
-                    { name: "Rice + Beef Stew", price: 180, vendor: "Taifa Food Court", health: 3, calories: 550 },
-                    { name: "Fruit Salad", price: 100, vendor: "Student Centre", health: 5, calories: 200 },
-                    { name: "Mandazi + Tea", price: 30, vendor: "Hostel B Kiosk", health: 2, calories: 250 },
-                    { name: "Chips Masala", price: 120, vendor: "Gate C Chips", health: 2, calories: 500 },
-                    { name: "Boiled Eggs (2)", price: 40, vendor: "Hostel A", health: 5, calories: 150 },
-                    { name: "Samosa (2)", price: 50, vendor: "Cafeteria", health: 2, calories: 300 }
+                    {name: 'Githeri', price: 50, vendor: 'Main Cafeteria', location: 'Central Campus', health: 4, calories: 350, tip: 'Add avocado for healthy fats (Ksh 20 extra)'},
+                    {name: 'Ugali + Sukuma Wiki', price: 70, vendor: 'Main Cafeteria', location: 'Central Campus', health: 4, calories: 400, tip: 'Ask for extra soup for more flavor'},
+                    {name: 'Chapati + Beans', price: 60, vendor: 'Mama Nia\'s Kiosk', location: 'Hostel B', health: 4, calories: 450, tip: 'Perfect protein-carb combination'},
+                    {name: 'Chips + Sausage', price: 150, vendor: 'Taifa Food Court', location: 'Student Centre', health: 2, calories: 600, tip: 'Add a tomato salad (Ksh 30) for vitamins'},
+                    {name: 'Rice + Beef Stew', price: 180, vendor: 'Taifa Food Court', location: 'Student Centre', health: 3, calories: 550, tip: 'Comes with free soup on Wednesdays'},
+                    {name: 'Fruit Salad', price: 100, vendor: 'Student Centre', location: 'Food Court', health: 5, calories: 200, tip: 'Great for digestion after heavy meals'},
+                    {name: 'Mandazi + Tea', price: 30, vendor: 'Hostel Kiosk', location: 'Hostel Zone', health: 2, calories: 250, tip: 'Best value breakfast option'},
+                    {name: 'Chips Masala', price: 120, vendor: 'Gate C Chips', location: 'Gate C', health: 2, calories: 500, tip: 'Share with a friend to save money'},
+                    {name: 'Boiled Eggs (2)', price: 40, vendor: 'Hostel A', location: 'Hostel Zone', health: 5, calories: 150, tip: 'Add to any meal for extra protein'},
+                    {name: 'Samosa (2)', price: 50, vendor: 'Cafeteria', location: 'Main Building', health: 2, calories: 300, tip: 'Pair with fruit for balanced snack'}
                 ]
             },
-            "ku": {
-                name: "Kenyatta University",
+            'ku': {
+                name: 'Kenyatta University',
+                icon: '🎓',
+                color: '#1ABC9C',
                 meals: [
-                    { name: "Rice + Beans", price: 60, vendor: "KU Main Mess", health: 4, calories: 400 },
-                    { name: "Ugali + Beef", price: 120, vendor: "KU Main Mess", health: 3, calories: 500 },
-                    { name: "Spaghetti", price: 80, vendor: "KU Main Mess", health: 3, calories: 450 },
-                    { name: "Chicken Burger", price: 200, vendor: "Bamboo Cafe", health: 3, calories: 500 },
-                    { name: "Vegetable Stew", price: 90, vendor: "Green Cafe", health: 5, calories: 300 },
-                    { name: "Chips + Egg", price: 130, vendor: "Sports Cafe", health: 3, calories: 550 },
-                    { name: "Porridge + Bread", price: 40, vendor: "Morning Kiosk", health: 3, calories: 250 }
+                    {name: 'Rice + Beans', price: 60, vendor: 'KU Main Mess', location: 'Near Hall 7', health: 4, calories: 400, tip: 'Mix with avocado for creamy texture'},
+                    {name: 'Ugali + Beef', price: 120, vendor: 'KU Main Mess', location: 'Near Hall 7', health: 3, calories: 500, tip: 'Portion is large - can share with friend'},
+                    {name: 'Spaghetti', price: 80, vendor: 'KU Main Mess', location: 'Near Hall 7', health: 3, calories: 450, tip: 'Add boiled egg for complete meal'},
+                    {name: 'Chicken Burger', price: 200, vendor: 'Bamboo Cafe', location: 'Commerce Building', health: 3, calories: 500, tip: 'Comes with free soda on Fridays'},
+                    {name: 'Vegetable Stew', price: 90, vendor: 'Green Cafe', location: 'Near Library', health: 5, calories: 300, tip: 'Best vegetarian option on campus'},
+                    {name: 'Chips + Egg', price: 130, vendor: 'Sports Cafe', location: 'Sports Complex', health: 3, calories: 550, tip: 'Ask for extra kachumbari'},
+                    {name: 'Porridge + Bread', price: 40, vendor: 'Morning Kiosk', location: 'Hostel Area', health: 3, calories: 250, tip: 'Warm and filling breakfast'}
                 ]
             },
-            "jkuat": {
-                name: "JKUAT Juja",
+            'jkuat': {
+                name: 'JKUAT (Juja)',
+                icon: '🔬',
+                color: '#9B59B6',
                 meals: [
-                    { name: "Githeri Special", price: 70, vendor: "Main Gate", health: 4, calories: 400 },
-                    { name: "Chapati + Minji", price: 80, vendor: "Hostel Zone", health: 4, calories: 450 },
-                    { name: "Pizza Slice", price: 150, vendor: "Food Court", health: 2, calories: 350 },
-                    { name: "Fruit Mix", price: 80, vendor: "Green Grocers", health: 5, calories: 180 }
+                    {name: 'Githeri Special', price: 70, vendor: 'Main Gate', location: 'Main Gate', health: 4, calories: 400, tip: 'Comes with free avocado on Tuesdays'},
+                    {name: 'Chapati + Minji', price: 80, vendor: 'Hostel Zone', location: 'Hostel Area', health: 4, calories: 450, tip: 'Hearty and filling meal'},
+                    {name: 'Pizza Slice', price: 150, vendor: 'Food Court', location: 'Student Centre', health: 2, calories: 350, tip: 'Add salad for balanced meal'},
+                    {name: 'Fruit Mix', price: 80, vendor: 'Green Grocers', location: 'Market Area', health: 5, calories: 180, tip: 'Fresh and vitamin-rich'}
+                ]
+            },
+            'moi': {
+                name: 'Moi University',
+                icon: '🌳',
+                color: '#27AE60',
+                meals: [
+                    {name: 'Ugali + Fish', price: 140, vendor: 'Main Cafeteria', location: 'Central', health: 4, calories: 450, tip: 'Omega-3 rich option'},
+                    {name: 'Rice + Chicken', price: 160, vendor: 'Food Court', location: 'Student Centre', health: 3, calories: 500, tip: 'Popular Wednesday special'},
+                    {name: 'Bean Stew + 2 Chapati', price: 70, vendor: 'Hostel Cafe', location: 'Hostel Area', health: 4, calories: 420, tip: 'Ask for extra soup'}
+                ]
+            },
+            'mmust': {
+                name: 'Masinde Muliro',
+                icon: '🏔️',
+                color: '#3498DB',
+                meals: [
+                    {name: 'Ugali + Vegetables', price: 65, vendor: 'Main Mess', location: 'Campus Centre', health: 4, calories: 380, tip: 'Fresh from local farms'},
+                    {name: 'Chips + Chicken', price: 140, vendor: 'Bunge Cafe', location: 'Student Centre', health: 2, calories: 550, tip: 'Crispy and satisfying'}
+                ]
+            },
+            'egerton': {
+                name: 'Egerton University',
+                icon: '🌾',
+                color: '#F39C12',
+                meals: [
+                    {name: 'Githeri + Avocado', price: 90, vendor: 'Njoro Cafe', location: 'Main Campus', health: 5, calories: 420, tip: 'Farm-fresh ingredients'},
+                    {name: 'Rice + Beans Mix', price: 75, vendor: 'Student Mess', location: 'Hostel Area', health: 4, calories: 400, tip: 'Well-cooked and flavorful'}
+                ]
+            },
+            'usiu': {
+                name: 'USIU Africa',
+                icon: '🌍',
+                color: '#E74C3C',
+                meals: [
+                    {name: 'Salad Bowl', price: 180, vendor: 'Green Cafe', location: 'Food Court', health: 5, calories: 220, tip: 'Customize with protein add-ons'},
+                    {name: 'Chicken Wrap', price: 220, vendor: 'Fast Food', location: 'Student Centre', health: 3, calories: 450, tip: 'Portable and convenient'}
+                ]
+            },
+            'tuk': {
+                name: 'Technical University',
+                icon: '⚙️',
+                color: '#95A5A6',
+                meals: [
+                    {name: 'Ugali + Beef Stew', price: 110, vendor: 'Main Cafe', location: 'Engineering Block', health: 3, calories: 480, tip: 'Hearty and filling'},
+                    {name: 'Chips + Sausage', price: 130, vendor: 'Street Vendors', location: 'Gate A', health: 2, calories: 520, tip: 'Quick and affordable'}
                 ]
             }
         };
 
-        // Survival tips
+        // Survival tips database
         const survivalTips = [
-            "Buy sukuma wiki in bulk - stays fresh for days and costs only Ksh 20 per bundle!",
-            "Cook rice and beans together in a hostel hotpot - complete protein for pennies!",
-            "Always carry a water bottle - buying bottled water wastes Ksh 50 daily!",
-            "Team up with 3 friends: buy 1kg rice, 1kg beans, cooking oil, tomatoes, onions = Ksh 400 total (Ksh 100 each) for 3 days of meals!",
-            "Boil eggs in the morning - keep them for snacks throughout the day!",
-            "Visit mama mboga at 6 PM - prices drop as they close!",
-            "Buy unripe bananas (ndizi) - they last longer and can be boiled or fried!",
-            "Learn to make uji (porridge) - nutritious breakfast for Ksh 15 per serving!"
+            "🍌 Buy bananas - cheapest fruit at Ksh 5-10 each! Eat 2 for instant energy.",
+            "💧 Drink 2 glasses of water before meals - you'll feel fuller and eat less.",
+            "👥 Team up with 3 friends: Buy 1kg rice (Ksh 120), 1kg beans (Ksh 180), cooking oil, tomatoes, onions = Ksh 400 total (Ksh 100 each) for 3 days of meals!",
+            "🥚 Boil 6 eggs on Sunday night - keep them for snacks throughout the week!",
+            "🛒 Visit mama mboga at 6 PM - prices drop as they close for the day!",
+            "🍞 Buy unripe bananas (ndizi) - they last longer and can be boiled, fried, or roasted!",
+            "🔥 Learn to make uji (porridge) - nutritious breakfast for Ksh 15 per serving!",
+            "📅 Plan weekly meals: Sunday cooking saves time and money all week!",
+            "🥑 Avocado is your best friend - healthy fats keep you full for hours!",
+            "🍅 Buy tomatoes in bulk and make tomato sauce - lasts all week!",
+            "🧂 Season your own food - salt, pepper, and curry powder transform simple meals!",
+            "🍚 Cook double portions - eat half now, save half for tomorrow!",
+            "🔄 Rotate proteins: Beans Monday, Eggs Tuesday, Beef Wednesday, etc.",
+            "🌿 Grow sukuma wiki in a small pot - free greens forever!",
+            "🥛 Powdered milk is cheaper than fresh and lasts longer!"
         ];
 
-        // Initialize
+        // Weekly meal plans
+        const weeklyPlans = {
+            500: [
+                "Monday: Githeri (50) + Banana (20) = Ksh 70",
+                "Tuesday: Ugali Sukuma (70) + Orange (15) = Ksh 85",
+                "Wednesday: Chapati Beans (60) + Spinach (10) = Ksh 70",
+                "Thursday: Rice Beans (60) + Tomato (10) = Ksh 70",
+                "Friday: Githeri (50) + Avocado (30) = Ksh 80",
+                "Saturday: DIY pasta with tomato (80) = Ksh 80",
+                "Sunday: Treat day - Chips (100) = Ksh 100",
+                "TOTAL: Ksh 555 (extra Ksh 55 for emergencies!)"
+            ],
+            1000: [
+                "Monday: Rice + Beef (160) + Fruit (30) = Ksh 190",
+                "Tuesday: Chapati + Minji (80) + Salad (40) = Ksh 120",
+                "Wednesday: Spaghetti + Egg (100) + Fruit (30) = Ksh 130",
+                "Thursday: Githeri + Avocado (70) + Yogurt (50) = Ksh 120",
+                "Friday: Chicken Burger (200) - treat yourself! = Ksh 200",
+                "Saturday: DIY cooking with friends = Ksh 120",
+                "Sunday: Vegetable stew + 2 chapati (90) = Ksh 90",
+                "TOTAL: Ksh 970 (save Ksh 30 for snacks!)"
+            ]
+        };
+
+        // Global variables
+        let currentCampus = 'uo_nairobi';
+        let currentBudget = 150;
+        let currentTipIndex = 0;
+
+        // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
-            updateBudgetDisplay();
-            showRandomTip();
-            
-            // Campus tab selection
-            document.querySelectorAll('.campus-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.campus-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    const campus = this.getAttribute('onclick').match(/'([^']+)'/)[1];
-                    document.getElementById('campus').value = campus;
-                });
-            });
-            
-            // Budget slider
-            document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
+            initializeCampusGrid();
+            initializeBudgetSlider();
+            initializeTips();
+            initializeEventListeners();
+            updateStats();
         });
 
-        function updateBudgetDisplay() {
-            const budget = document.getElementById('budgetSlider').value;
-            document.getElementById('budgetDisplay').textContent = `Ksh ${budget}`;
-        }
-
-        function showRandomTip() {
-            const randomTip = survivalTips[Math.floor(Math.random() * survivalTips.length)];
-            document.getElementById('tipText').textContent = randomTip;
-        }
-
-        function findMeals() {
-            const campus = document.getElementById('campus').value;
-            const budget = parseInt(document.getElementById('budgetSlider').value);
+        // Initialize campus grid
+        function initializeCampusGrid() {
+            const campusGrid = document.getElementById('campusGrid');
+            campusGrid.innerHTML = '';
             
-            if (!campusData[campus]) {
-                alert("We're still collecting data for this campus! Try UoN or KU for now.");
-                return;
+            for (const [id, campus] of Object.entries(campuses)) {
+                const campusCard = document.createElement('div');
+                campusCard.className = `campus-card ${id === currentCampus ? 'active' : ''}`;
+                campusCard.innerHTML = `
+                    <span class="campus-icon">${campus.icon}</span>
+                    <div>${campus.name}</div>
+                `;
+                campusCard.addEventListener('click', () => selectCampus(id));
+                campusGrid.appendChild(campusCard);
+            }
+        }
+
+        // Select campus
+        function selectCampus(campusId) {
+            currentCampus = campusId;
+            
+            // Update UI
+            document.querySelectorAll('.campus-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelectorAll('.campus-card').forEach(card => {
+                if (card.querySelector('.campus-icon').textContent === campuses[campusId].icon) {
+                    card.classList.add('active');
+                }
+            });
+            
+            // Update stats
+            updateStats();
+            
+            // If results are showing, update them
+            if (document.getElementById('results').style.display !== 'none') {
+                findMeals();
+            }
+        }
+
+        // Initialize budget slider
+        function initializeBudgetSlider() {
+            const budgetSlider = document.getElementById('budgetSlider');
+            const budgetDisplay = document.getElementById('budgetDisplay');
+            
+            budgetSlider.addEventListener('input', function() {
+                currentBudget = parseInt(this.value);
+                budgetDisplay.textContent = `Ksh ${currentBudget}`;
+                
+                // Update active budget preset
+                document.querySelectorAll('.budget-preset').forEach(preset => {
+                    preset.classList.remove('active');
+                    if (parseInt(preset.dataset.budget) === currentBudget) {
+                        preset.classList.add('active');
+                    }
+                });
+                
+                // If results are showing, update them
+                if (document.getElementById('results').style.display !== 'none') {
+                    findMeals();
+                }
+            });
+            
+            // Budget preset buttons
+            document.querySelectorAll('.budget-preset').forEach(preset => {
+                preset.addEventListener('click', function() {
+                    const budget = parseInt(this.dataset.budget);
+                    currentBudget = budget;
+                    budgetSlider.value = budget;
+                    budgetDisplay.textContent = `Ksh ${budget}`;
+                    
+                    // Update active state
+                    document.querySelectorAll('.budget-preset').forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // If results are showing, update them
+                    if (document.getElementById('results').style.display !== 'none') {
+                        findMeals();
+                    }
+                });
+            });
+        }
+
+        // Initialize tips carousel
+        function initializeTips() {
+            updateTip();
+            
+            document.getElementById('nextTip').addEventListener('click', nextTip);
+            document.getElementById('prevTip').addEventListener('click', prevTip);
+            
+            // Auto-rotate tips every 10 seconds
+            setInterval(nextTip, 10000);
+        }
+
+        // Update tip display
+        function updateTip() {
+            const tipText = document.getElementById('tipText');
+            const tipCounter = document.getElementById('tipCounter');
+            
+            tipText.textContent = survivalTips[currentTipIndex];
+            tipCounter.textContent = `Tip ${currentTipIndex + 1}/${survivalTips.length}`;
+        }
+
+        // Next tip
+        function nextTip() {
+            currentTipIndex = (currentTipIndex + 1) % survivalTips.length;
+            updateTip();
+        }
+
+        // Previous tip
+        function prevTip() {
+            currentTipIndex = (currentTipIndex - 1 + survivalTips.length) % survivalTips.length;
+            updateTip();
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Find meals button
+            document.getElementById('findButton').addEventListener('click', findMeals);
+            
+            // Update WhatsApp button with current campus
+            updateWhatsAppButton();
+        }
+
+        // Update WhatsApp button
+        function updateWhatsAppButton() {
+            const whatsappButton = document.getElementById('whatsappButton');
+            const message = encodeURIComponent(`Hi ChakulaChap! I'm at ${campuses[currentCampus].name} with budget Ksh ${currentBudget}`);
+            whatsappButton.href = `https://wa.me/254700000000?text=${message}`;
+        }
+
+        // Update stats
+        function updateStats() {
+            const campus = campuses[currentCampus];
+            const mealsCount = campus.meals.length;
+            const averagePrice = Math.round(campus.meals.reduce((sum, meal) => sum + meal.price, 0) / mealsCount);
+            
+            document.getElementById('mealsCount').textContent = `${mealsCount}+`;
+            document.getElementById('averagePrice').textContent = averagePrice;
+            
+            // Update WhatsApp button
+            updateWhatsAppButton();
+        }
+
+        // Main function to find meals
+        function findMeals() {
+            const campus = campuses[currentCampus];
+            const affordableMeals = campus.meals.filter(meal => meal.price <= currentBudget);
+            
+            // Sort by value (health per shilling)
+            affordableMeals.sort((a, b) => {
+                const valueA = a.health * 10 / a.price;
+                const valueB = b.health * 10 / b.price;
+                return valueB - valueA;
+            });
+            
+            displayResults(affordableMeals);
+            
+            // Update weekly plan
+            updateWeeklyPlan();
+            
+            // Add animation to button
+            const button = document.getElementById('findButton');
+            button.classList.add('shake');
+            setTimeout(() => button.classList.remove('shake'), 500);
+        }
+
+        // Display results
+        function displayResults(meals) {
+            const resultsDiv = document.getElementById('results');
+            const resultsTitle = resultsDiv.querySelector('.results-title') || document.createElement('h2');
+            const resultsCount = resultsDiv.querySelector('.results-count') || document.createElement('span');
+            const mealGrid = resultsDiv.querySelector('.meal-grid') || document.createElement('div');
+            
+            resultsDiv.style.display = 'block';
+            
+            // Update title and count
+            resultsTitle.className = 'results-title';
+            resultsTitle.innerHTML = `<i class="fas fa-utensils"></i> Meal Suggestions for ${campuses[currentCampus].name}`;
+            
+            resultsCount.className = 'results-count';
+            resultsCount.textContent = `${meals.length} options`;
+            
+            // Clear previous results
+            mealGrid.className = 'meal-grid';
+            mealGrid.innerHTML = '';
+            
+            if (meals.length === 0) {
+                // No meals found
+                mealGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <div style="font-size: 5em; color: #ddd; margin-bottom: 20px;">😔</div>
+                        <h3 style="color: #e74c3c; margin-bottom: 15px;">No Meals Found</h3>
+                        <p>With Ksh ${currentBudget}, we couldn't find meals at ${campuses[currentCampus].name}.</p>
+                        <p style="margin-top: 20px;"><strong>Try:</strong></p>
+                        <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                            <li>Increasing budget to at least Ksh ${Math.min(...campuses[currentCampus].meals.map(m => m.price))}</li>
+                            <li>Checking hostel kiosks for cheaper options</li>
+                            <li>Buying ingredients: Bread (Ksh 50) + Peanut butter (Ksh 100) lasts 3 days</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                // Display meals
+                meals.slice(0, 6).forEach((meal, index) => {
+                    const mealCard = document.createElement('div');
+                    mealCard.className = `meal-card ${index === 0 ? 'featured' : ''}`;
+                    
+                    // Create health stars
+                    const healthStars = Array(5).fill().map((_, i) => 
+                        `<span class="health-star ${i < meal.health ? 'active' : ''}">★</span>`
+                    ).join('');
+                    
+                    mealCard.innerHTML = `
+                        <h3 class="meal-name">${meal.name}</h3>
+                        <div class="meal-price">Ksh ${meal.price}</div>
+                        <div class="meal-details">
+                            <div><i class="fas fa-store"></i> ${meal.vendor}</div>
+                            <div><i class="fas fa-map-marker-alt"></i> ${meal.location}</div>
+                        </div>
+                        <div class="meal-details">
+                            <div><i class="fas fa-fire"></i> ${meal.calories} cal</div>
+                            <div class="health-rating">${healthStars}</div>
+                        </div>
+                        <div class="meal-tip">
+                            <i class="fas fa-lightbulb"></i> ${meal.tip}
+                        </div>
+                    `;
+                    
+                    mealGrid.appendChild(mealCard);
+                });
+                
+                // Add budget analysis
+                const cheapestMeal = meals.reduce((min, meal) => meal.price < min.price ? meal : min, meals[0]);
+                const averagePrice = meals.reduce((sum, meal) => sum + meal.price, 0) / meals.length;
+                
+                const analysisDiv = document.createElement('div');
+                analysisDiv.style.cssText = 'margin-top: 30px; padding: 20px; background: #E8F5E9; border-radius: 10px;';
+                analysisDiv.innerHTML = `
+                    <h3><i class="fas fa-chart-line"></i> Budget Analysis</h3>
+                    <p>Cheapest option: <strong>${cheapestMeal.name}</strong> at Ksh ${cheapestMeal.price} (save Ksh ${currentBudget - cheapestMeal.price})</p>
+                    <p>Average price: Ksh ${averagePrice.toFixed(0)} | Value score: ${((meals[0].health * 10) / meals[0].price).toFixed(1)}/10</p>
+                    ${currentBudget < 100 ? 
+                        '<p style="color: #e67e22; margin-top: 10px;"><strong>Budget Tip:</strong> With less than Ksh 100, focus on basic staples like githeri, chapati, or boiled eggs.</p>' : 
+                        ''}
+                `;
+                
+                mealGrid.appendChild(analysisDiv);
             }
             
-            const meals = campusData[campus].meals;
-            const affordableMeals = meals.filter(meal => meal.price <= budget);
+            // Update results div
+            resultsDiv.innerHTML = '';
+            const resultsHeader = document.createElement('div');
+            resultsHeader.className = 'results-header';
+            resultsHeader.appendChild(resultsTitle);
+            resultsHeader.appendChild(resultsCount);
             
-            const resultsDiv = document.getElementById('results');
+            resultsDiv.appendChild(resultsHeader);
+            resultsDiv.appendChild(mealGrid);
             
-            if (affordableMeals.length === 0) {
-                resultsDiv.innerHTML = `
-                    <h2 style="color: #e74c3c;">No Meals Found 😔</h2>
-                    <p>With Ksh ${budget}, we couldn't find meals at ${campusData[campus].name}.</p>
-                    <p><strong>Try:</strong></p>
-                    <ul>
-                        <li>Increasing budget to at least Ksh ${Math.min(...meals.map(m => m.price))}</li>
-                        <li>Checking the hostel kiosks for cheaper options</li>
-                        <li>Buying ingredients instead: Bread (Ksh 50) + Peanut butter (Ksh 100) lasts 3 days</li>
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Update weekly plan
+        function updateWeeklyPlan() {
+            const weeklyPlanDiv = document.getElementById('weeklyPlan');
+            const weeklyPlanContent = document.getElementById('weeklyPlanContent');
+            
+            if (currentBudget <= 500) {
+                weeklyPlanDiv.classList.remove('hidden');
+                weeklyPlanContent.innerHTML = `
+                    <p>With Ksh ${currentBudget} per day (Ksh ${currentBudget * 7} per week), here's a sample plan:</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        ${weeklyPlans[500].map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                `;
+            } else if (currentBudget <= 1000) {
+                weeklyPlanDiv.classList.remove('hidden');
+                weeklyPlanContent.innerHTML = `
+                    <p>With Ksh ${currentBudget} per day (Ksh ${currentBudget * 7} per week), here's a sample plan:</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        ${weeklyPlans[1000].map(item => `<li>${item}</li>`).join('')}
                     </ul>
                 `;
             } else {
-                // Sort by value (health per shilling)
-                affordableMeals.sort((a, b) => (b.health / b.price) - (a.health / a.price));
-                
-                let html = `<h2>🍽️ Found ${affordableMeals.length} Options at ${campusData[campus].name}</h2>`;
-                
-                // Show top 5
-                affordableMeals.slice(0, 5).forEach(meal => {
-                    const healthStars = '★'.repeat(meal.health) + '☆'.repeat(5 - meal.health);
-                    const valueScore = ((meal.health / meal.price) * 100).toFixed(1);
-                    
-                    html += `
-                    <div class="meal-card">
-                        <h3>${meal.name}</h3>
-                        <p><span class="price">Ksh ${meal.price}</span> | ${meal.vendor}</p>
-                        <p>Health: <span class="health-rating">${healthStars}</span></p>
-                        <p>${meal.calories} calories | Value score: ${valueScore}/10</p>
-                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                            ${getMealTip(meal.name)}
-                        </p>
-                    </div>
-                    `;
-                });
-                
-                // Best value recommendation
-                const bestValue = affordableMeals[0];
-                html += `
-                <div style="background: #E8F5E9; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                    <h3>💡 BEST VALUE PICK</h3>
-                    <p><strong>${bestValue.name}</strong> at ${bestValue.vendor}</p>
-                    <p>Only <strong>Ksh ${bestValue.price}</strong> with ${bestValue.health}/5 health rating</p>
-                    <p>Save Ksh ${budget - bestValue.price} for tomorrow!</p>
-                </div>
-                `;
-                
-                // Budget analysis
-                html += getBudgetAnalysis(budget, affordableMeals);
-                
-                resultsDiv.innerHTML = html;
-            }
-            
-            resultsDiv.style.display = 'block';
-            showRandomTip();
-            
-            // Scroll to results
-            resultsDiv.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function getMealTip(mealName) {
-            const tips = {
-                "Githeri": "Add avocado for healthy fats (Ksh 20 extra)",
-                "Ugali + Sukuma Wiki": "Ask for extra soup/sauce for more flavor",
-                "Chapati + Beans": "Perfect protein-carb combo!",
-                "Chips": "Add a tomato (Ksh 10) for vitamins",
-                "Rice": "Mix with beans for complete protein",
-                "Fruit Salad": "Great for digestion after heavy meals"
-            };
-            return tips[mealName] || "Pair with vegetables for balanced meal";
-        }
-
-        function getBudgetAnalysis(budget, meals) {
-            const avgPrice = meals.reduce((sum, meal) => sum + meal.price, 0) / meals.length;
-            const cheapest = Math.min(...meals.map(m => m.price));
-            const savings = budget - cheapest;
-            
-            let html = `<div style="margin-top: 25px; padding: 15px; background: #FFF3E0; border-radius: 10px;">`;
-            html += `<h3>💰 Budget Analysis</h3>`;
-            html += `<p>Average meal price: <strong>Ksh ${avgPrice.toFixed(0)}</strong></p>`;
-            html += `<p>Cheapest option: <strong>Ksh ${cheapest}</strong> (Save Ksh ${savings})</p>`;
-            
-            if (budget < 100) {
-                html += `<p style="color: #e67e22;"><strong>Budget Tip:</strong> With Ksh ${budget}, consider:</p>`;
-                html += `<ul>`;
-                html += `<li>2 chapatis (Ksh 40) + beans (Ksh 20) = Ksh 60</li>`;
-                html += `<li>Githeri (Ksh 50) + banana (Ksh 20) = Ksh 70</li>`;
-                html += `<li>Buy bread (Ksh 50) + avocado (Ksh 30) = 2 meals</li>`;
-                html += `</ul>`;
-            } else if (budget > 300) {
-                html += `<p style="color: #27ae60;"><strong>Budget Tip:</strong> With Ksh ${budget}, you could:</p>`;
-                html += `<ul>`;
-                html += `<li>Get a protein-rich meal + fruit + drink</li>`;
-                html += `<li>Buy ingredients to cook for 2-3 days</li>`;
-                html += `<li>Treat yourself but save the rest</li>`;
-                html += `</ul>`;
-            }
-            
-            html += `</div>`;
-            return html;
-        }
-
-        // Function to submit new meal data (simplified)
-        function submitMealData() {
-            const campus = prompt("Which campus? (e.g., 'uo_nairobi')");
-            const meal = prompt("Meal name?");
-            const price = prompt("Price in Ksh?");
-            const vendor = prompt("Vendor name?");
-            
-            if (campus && meal && price && vendor) {
-                alert(`Thank you! We'll verify and add "${meal}" at ${vendor} for Ksh ${price}.`);
-                // In real app, this would send to a database
+                weeklyPlanDiv.classList.add('hidden');
             }
         }
+
+        // Modal functions
+        function showAbout() {
+            alert(`ChakulaChap - About\n\nCreated by Kenyan students for Kenyan students.\n\nOur mission: Help every university student in Kenya find affordable, healthy meals regardless of their budget.\n\nWe're currently in beta - help us grow by contributing meal data from your campus!`);
+            return false;
+        }
+
+        function showContribute() {
+            const campus = campuses[currentCampus].name;
+            const message = `To contribute meal data for ${campus}:\n\n1. WhatsApp: +254 700 000 000\n2. Include: Meal name, price, vendor, location\n3. Or email: data@chakulachap.co.ke\n\nYour contribution helps thousands of students!`;
+            alert(message);
+            return false;
+        }
+
+        function showContact() {
+            alert(`Contact ChakulaChap\n\nWhatsApp: +254 700 000 000\nEmail: info@chakulachap.co.ke\nTwitter: @ChakulaChapKE\n\nFor partnerships with food vendors or universities, please email: partnerships@chakulachap.co.ke`);
+            return false;
+        }
+
+        function showPrivacy() {
+            alert(`Privacy Policy\n\nWe respect your privacy:\n1. We don't collect personal data\n2. Meal prices are anonymous\n3. No tracking or cookies\n4. Data is used only to help students\n\nWe believe in transparency and student welfare above all.`);
+            return false;
+        }
+
+        // Initialize with a campus selection
+        selectCampus('uo_nairobi');
     </script>
 </body>
-
 </html>
