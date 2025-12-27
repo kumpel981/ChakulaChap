@@ -1,0 +1,208 @@
+/* style.css - For ChakulaChap */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(to right, #FF6B35, #FFA62E);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header .swahili {
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.main-content {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+select, input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e1e5ee;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: #FF6B35;
+}
+
+.budget-slider {
+    margin: 20px 0;
+}
+
+.budget-display {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #FF6B35;
+    margin: 15px 0;
+}
+
+.button {
+    background: linear-gradient(to right, #FF6B35, #FFA62E);
+    color: white;
+    border: none;
+    padding: 18px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top: 20px;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+}
+
+.results {
+    margin-top: 40px;
+    padding: 25px;
+    background: #f9f9f9;
+    border-radius: 15px;
+    display: none;
+}
+
+.meal-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 5px solid #FFA62E;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.meal-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.price {
+    color: #FF6B35;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.health-rating {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.survival-tip {
+    background: #E3F2FD;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    border-left: 5px solid #2196F3;
+}
+
+.campus-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.campus-tab {
+    padding: 10px 20px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.campus-tab.active {
+    background: #FF6B35;
+    color: white;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #eee;
+}
+
+.whatsapp-section {
+    background: #25D366;
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.whatsapp-button {
+    background: white;
+    color: #25D366;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .container {
+        border-radius: 10px;
+    }
+    
+    .header h1 {
+        font-size: 1.8em;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+}
