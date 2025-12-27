@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChakulaChap - Kenyan Student Meal Advisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #FF6B35, #FFA62E);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header .swahili {
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #FF6B35;
+        }
+        
+        .budget-slider {
+            margin: 20px 0;
+        }
+        
+        .budget-display {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FF6B35;
+            margin: 15px 0;
+        }
+        
+        .button {
+            background: linear-gradient(to right, #FF6B35, #FFA62E);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+        }
+        
+        .results {
+            margin-top: 40px;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .meal-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #FFA62E;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .meal-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            color: #FF6B35;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .health-rating {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .survival-tip {
+            background: #E3F2FD;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 5px solid #2196F3;
+        }
+        
+        .campus-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .campus-tab {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .campus-tab.active {
+            background: #FF6B35;
+            color: white;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+        }
+        
+        .whatsapp-section {
+            background: #25D366;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .whatsapp-button {
+            background: white;
+            color: #25D366;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ChakulaChap</h1>
+            <p class="swahili">"Kula Smart, Live Smart"</p>
+            <p>AI-Powered Meal Advisor for Kenyan University Students</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="form-group">
+                <label>📍 Select Your Campus</label>
+                <div class="campus-tabs">
+                    <div class="campus-tab active" onclick="selectCampus('uo_nairobi')">UoN</div>
+                    <div class="campus-tab" onclick="selectCampus('ku')">KU</div>
+                    <div class="campus-tab" onclick="selectCampus('jkuat')">JKUAT</div>
+                    <div class="campus-tab" onclick="selectCampus('moi')">Moi</div>
+                    <div class="campus-tab" onclick="selectCampus('mmust')">MMUST</div>
+                    <div class="campus-tab" onclick="selectCampus('egerton')">Egerton</div>
+                </div>
+                <select id="campus">
+                    <option value="uo_nairobi">University of Nairobi (Main)</option>
+                    <option value="ku">Kenyatta University</option>
+                    <option value="jkuat">JKUAT (Juja)</option>
+                    <option value="moi">Moi University</option>
+                    <option value="mmust">Masinde Muliro University</option>
+                    <option value="egerton">Egerton University</option>
+                    <option value="usiu">USIU</option>
+                    <option value="tuk">Technical University of Kenya</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>💰 Your Budget (Ksh)</label>
+                <div class="budget-display" id="budgetDisplay">Ksh 150</div>
+                <input type="range" id="budgetSlider" min="20" max="500" value="150" step="10" class="budget-slider">
+                <div style="display: flex; justify-content: space-between;">
+                    <span>Ksh 20</span>
+                    <span>Ksh 500</span>
+                </div>
+            </div>
+            
+            <button class="button" onclick="findMeals()">
+                🍛 Find Meals Within My Budget
+            </button>
+            
+            <div class="results" id="results">
+                <!-- Results will appear here -->
+            </div>
+            
+            <div class="whatsapp-section">
+                <h2>📱 Use Our WhatsApp Bot!</h2>
+                <p>Don't have data? Just WhatsApp us!</p>
+                <a href="https://wa.me/254700000000?text=Hi%20ChakulaChap%20I%20need%20meal%20suggestions" 
+                   class="whatsapp-button" target="_blank">
+                    💬 Chat on WhatsApp
+                </a>
+                <p style="margin-top: 15px; font-size: 0.9em;">
+                    Send: "Hi" to +254 700 000 000
+                </p>
+            </div>
+            
+            <div class="survival-tip" id="survivalTip">
+                <strong>🎓 Student Survival Tip:</strong><br>
+                <span id="tipText">Buy fruits like bananas or oranges from mama mboga instead of juice - cheaper and healthier!</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Made with ❤️ for Kenyan Students | Data from real campus surveys</p>
+            <p>© 2024 ChakulaChap | Need help? WhatsApp: +254 700 000 000</p>
+        </div>
+    </div>
+
+    <script>
+        // Campus data - This is your DATABASE
+        const campusData = {
+            "uo_nairobi": {
+                name: "University of Nairobi",
+                meals: [
+                    { name: "Githeri", price: 50, vendor: "Main Cafeteria", health: 4, calories: 350 },
+                    { name: "Ugali + Sukuma Wiki", price: 70, vendor: "Main Cafeteria", health: 4, calories: 400 },
+                    { name: "Chapati + Beans", price: 60, vendor: "Mama Nia's Kiosk", health: 4, calories: 450 },
+                    { name: "Chips + Sausage", price: 150, vendor: "Taifa Food Court", health: 2, calories: 600 },
+                    { name: "Rice + Beef Stew", price: 180, vendor: "Taifa Food Court", health: 3, calories: 550 },
+                    { name: "Fruit Salad", price: 100, vendor: "Student Centre", health: 5, calories: 200 },
+                    { name: "Mandazi + Tea", price: 30, vendor: "Hostel B Kiosk", health: 2, calories: 250 },
+                    { name: "Chips Masala", price: 120, vendor: "Gate C Chips", health: 2, calories: 500 },
+                    { name: "Boiled Eggs (2)", price: 40, vendor: "Hostel A", health: 5, calories: 150 },
+                    { name: "Samosa (2)", price: 50, vendor: "Cafeteria", health: 2, calories: 300 }
+                ]
+            },
+            "ku": {
+                name: "Kenyatta University",
+                meals: [
+                    { name: "Rice + Beans", price: 60, vendor: "KU Main Mess", health: 4, calories: 400 },
+                    { name: "Ugali + Beef", price: 120, vendor: "KU Main Mess", health: 3, calories: 500 },
+                    { name: "Spaghetti", price: 80, vendor: "KU Main Mess", health: 3, calories: 450 },
+                    { name: "Chicken Burger", price: 200, vendor: "Bamboo Cafe", health: 3, calories: 500 },
+                    { name: "Vegetable Stew", price: 90, vendor: "Green Cafe", health: 5, calories: 300 },
+                    { name: "Chips + Egg", price: 130, vendor: "Sports Cafe", health: 3, calories: 550 },
+                    { name: "Porridge + Bread", price: 40, vendor: "Morning Kiosk", health: 3, calories: 250 }
+                ]
+            },
+            "jkuat": {
+                name: "JKUAT Juja",
+                meals: [
+                    { name: "Githeri Special", price: 70, vendor: "Main Gate", health: 4, calories: 400 },
+                    { name: "Chapati + Minji", price: 80, vendor: "Hostel Zone", health: 4, calories: 450 },
+                    { name: "Pizza Slice", price: 150, vendor: "Food Court", health: 2, calories: 350 },
+                    { name: "Fruit Mix", price: 80, vendor: "Green Grocers", health: 5, calories: 180 }
+                ]
+            }
+        };
+
+        // Survival tips
+        const survivalTips = [
+            "Buy sukuma wiki in bulk - stays fresh for days and costs only Ksh 20 per bundle!",
+            "Cook rice and beans together in a hostel hotpot - complete protein for pennies!",
+            "Always carry a water bottle - buying bottled water wastes Ksh 50 daily!",
+            "Team up with 3 friends: buy 1kg rice, 1kg beans, cooking oil, tomatoes, onions = Ksh 400 total (Ksh 100 each) for 3 days of meals!",
+            "Boil eggs in the morning - keep them for snacks throughout the day!",
+            "Visit mama mboga at 6 PM - prices drop as they close!",
+            "Buy unripe bananas (ndizi) - they last longer and can be boiled or fried!",
+            "Learn to make uji (porridge) - nutritious breakfast for Ksh 15 per serving!"
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBudgetDisplay();
+            showRandomTip();
+            
+            // Campus tab selection
+            document.querySelectorAll('.campus-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.campus-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const campus = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    document.getElementById('campus').value = campus;
+                });
+            });
+            
+            // Budget slider
+            document.getElementById('budgetSlider').addEventListener('input', updateBudgetDisplay);
+        });
+
+        function updateBudgetDisplay() {
+            const budget = document.getElementById('budgetSlider').value;
+            document.getElementById('budgetDisplay').textContent = `Ksh ${budget}`;
+        }
+
+        function showRandomTip() {
+            const randomTip = survivalTips[Math.floor(Math.random() * survivalTips.length)];
+            document.getElementById('tipText').textContent = randomTip;
+        }
+
+        function findMeals() {
+            const campus = document.getElementById('campus').value;
+            const budget = parseInt(document.getElementById('budgetSlider').value);
+            
+            if (!campusData[campus]) {
+                alert("We're still collecting data for this campus! Try UoN or KU for now.");
+                return;
+            }
+            
+            const meals = campusData[campus].meals;
+            const affordableMeals = meals.filter(meal => meal.price <= budget);
+            
+            const resultsDiv = document.getElementById('results');
+            
+            if (affordableMeals.length === 0) {
+                resultsDiv.innerHTML = `
+                    <h2 style="color: #e74c3c;">No Meals Found 😔</h2>
+                    <p>With Ksh ${budget}, we couldn't find meals at ${campusData[campus].name}.</p>
+                    <p><strong>Try:</strong></p>
+                    <ul>
+                        <li>Increasing budget to at least Ksh ${Math.min(...meals.map(m => m.price))}</li>
+                        <li>Checking the hostel kiosks for cheaper options</li>
+                        <li>Buying ingredients instead: Bread (Ksh 50) + Peanut butter (Ksh 100) lasts 3 days</li>
+                    </ul>
+                `;
+            } else {
+                // Sort by value (health per shilling)
+                affordableMeals.sort((a, b) => (b.health / b.price) - (a.health / a.price));
+                
+                let html = `<h2>🍽️ Found ${affordableMeals.length} Options at ${campusData[campus].name}</h2>`;
+                
+                // Show top 5
+                affordableMeals.slice(0, 5).forEach(meal => {
+                    const healthStars = '★'.repeat(meal.health) + '☆'.repeat(5 - meal.health);
+                    const valueScore = ((meal.health / meal.price) * 100).toFixed(1);
+                    
+                    html += `
+                    <div class="meal-card">
+                        <h3>${meal.name}</h3>
+                        <p><span class="price">Ksh ${meal.price}</span> | ${meal.vendor}</p>
+                        <p>Health: <span class="health-rating">${healthStars}</span></p>
+                        <p>${meal.calories} calories | Value score: ${valueScore}/10</p>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            ${getMealTip(meal.name)}
+                        </p>
+                    </div>
+                    `;
+                });
+                
+                // Best value recommendation
+                const bestValue = affordableMeals[0];
+                html += `
+                <div style="background: #E8F5E9; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                    <h3>💡 BEST VALUE PICK</h3>
+                    <p><strong>${bestValue.name}</strong> at ${bestValue.vendor}</p>
+                    <p>Only <strong>Ksh ${bestValue.price}</strong> with ${bestValue.health}/5 health rating</p>
+                    <p>Save Ksh ${budget - bestValue.price} for tomorrow!</p>
+                </div>
+                `;
+                
+                // Budget analysis
+                html += getBudgetAnalysis(budget, affordableMeals);
+                
+                resultsDiv.innerHTML = html;
+            }
+            
+            resultsDiv.style.display = 'block';
+            showRandomTip();
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getMealTip(mealName) {
+            const tips = {
+                "Githeri": "Add avocado for healthy fats (Ksh 20 extra)",
+                "Ugali + Sukuma Wiki": "Ask for extra soup/sauce for more flavor",
+                "Chapati + Beans": "Perfect protein-carb combo!",
+                "Chips": "Add a tomato (Ksh 10) for vitamins",
+                "Rice": "Mix with beans for complete protein",
+                "Fruit Salad": "Great for digestion after heavy meals"
+            };
+            return tips[mealName] || "Pair with vegetables for balanced meal";
+        }
+
+        function getBudgetAnalysis(budget, meals) {
+            const avgPrice = meals.reduce((sum, meal) => sum + meal.price, 0) / meals.length;
+            const cheapest = Math.min(...meals.map(m => m.price));
+            const savings = budget - cheapest;
+            
+            let html = `<div style="margin-top: 25px; padding: 15px; background: #FFF3E0; border-radius: 10px;">`;
+            html += `<h3>💰 Budget Analysis</h3>`;
+            html += `<p>Average meal price: <strong>Ksh ${avgPrice.toFixed(0)}</strong></p>`;
+            html += `<p>Cheapest option: <strong>Ksh ${cheapest}</strong> (Save Ksh ${savings})</p>`;
+            
+            if (budget < 100) {
+                html += `<p style="color: #e67e22;"><strong>Budget Tip:</strong> With Ksh ${budget}, consider:</p>`;
+                html += `<ul>`;
+                html += `<li>2 chapatis (Ksh 40) + beans (Ksh 20) = Ksh 60</li>`;
+                html += `<li>Githeri (Ksh 50) + banana (Ksh 20) = Ksh 70</li>`;
+                html += `<li>Buy bread (Ksh 50) + avocado (Ksh 30) = 2 meals</li>`;
+                html += `</ul>`;
+            } else if (budget > 300) {
+                html += `<p style="color: #27ae60;"><strong>Budget Tip:</strong> With Ksh ${budget}, you could:</p>`;
+                html += `<ul>`;
+                html += `<li>Get a protein-rich meal + fruit + drink</li>`;
+                html += `<li>Buy ingredients to cook for 2-3 days</li>`;
+                html += `<li>Treat yourself but save the rest</li>`;
+                html += `</ul>`;
+            }
+            
+            html += `</div>`;
+            return html;
+        }
+
+        // Function to submit new meal data (simplified)
+        function submitMealData() {
+            const campus = prompt("Which campus? (e.g., 'uo_nairobi')");
+            const meal = prompt("Meal name?");
+            const price = prompt("Price in Ksh?");
+            const vendor = prompt("Vendor name?");
+            
+            if (campus && meal && price && vendor) {
+                alert(`Thank you! We'll verify and add "${meal}" at ${vendor} for Ksh ${price}.`);
+                // In real app, this would send to a database
+            }
+        }
+    </script>
+</body>
+</html>

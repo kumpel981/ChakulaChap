@@ -1,0 +1,38 @@
+{
+    "deployment_steps": [
+        "1. Save all files in one folder",
+        "2. Install Python: https://python.org",
+        "3. Install Flask: pip install flask flask-cors",
+        "4. Run: python api.py",
+        "5. Open index.html in browser",
+        "6. For live website: Upload to GitHub Pages or Vercel"
+    ],
+    "free_hosting_options": [
+        {
+            "name": "GitHub Pages",
+            "url": "https://pages.github.com",
+            "for": "Static website (index.html)"
+        },
+        {
+            "name": "Vercel",
+            "url": "https://vercel.com",
+            "for": "Full web app with backend"
+        },
+        {
+            "name": "PythonAnywhere",
+            "url": "https://pythonanywhere.com",
+            "for": "Python backend (api.py)"
+        },
+        {
+            "name": "Railway",
+            "url": "https://railway.app",
+            "for": "Full stack deployment"
+        }
+    ],
+    "whatsapp_integration": {
+        "method": "Twilio",
+        "free_tier": "Yes",
+        "kenyan_numbers": "Available via Africa's Talking",
+        "alternative": "Use WhatsApp Business API (requires verification)"
+    }
+}
